@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "995149836808",
+    "project_id": "expert-academy-dac78",
+    "storage_bucket": "expert-academy-dac78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995149836808:android:ac151e740d8be64c5197bd",
+        "android_client_info": {
+          "package_name": "com.newattempt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995149836808-65mhntaodtkfcdc49jsi15u0ibi0fp2u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6tlqPgZy7SADwFiZlUD-z6PEQT2p21Ts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995149836808-65mhntaodtkfcdc49jsi15u0ibi0fp2u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
