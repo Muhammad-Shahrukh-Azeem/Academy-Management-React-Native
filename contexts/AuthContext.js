@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { Alert } from 'react-native';
-import { auth } from '../firebase';
+import auth from '@react-native-firebase/auth';
 
 const AuthContext = createContext();
 
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleSignOut = async () => {
     try {
-      await auth.signOut();
+      await auth().signOut();
     } catch (error) {
       Alert.alert('Error', 'An error occurred while signing out.');
     }

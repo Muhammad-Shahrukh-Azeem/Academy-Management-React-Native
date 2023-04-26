@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Modal, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { auth, db } from '../firebase';
+import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import UserRoleContext from '../contexts/UserRoleContext';
 import firestore from '@react-native-firebase/firestore';
+
 
 
 
