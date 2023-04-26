@@ -352,6 +352,7 @@ const styles = StyleSheet.create({
   },
   subjectLabel: {
     marginLeft: 8,
+    color: 'black',
   },
   packagesHeading: {
     fontWeight: 'bold',
@@ -378,9 +379,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
-  },
-  packagesContainer: {
-    marginBottom: 20,
   },
   totalCost: {
     fontWeight: 'bold',

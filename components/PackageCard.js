@@ -35,15 +35,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 8,
+    color: 'black',
   },
   subjects: {
     marginBottom: 10,
     fontSize: 16,
+    color: '#0782F9',
   },
   amount: {
     fontWeight: 'bold',
     fontSize: 16,
     marginBottom: 5,
+    color: 'black',
+
   },
   button: {
     backgroundColor: '#0782F9',
