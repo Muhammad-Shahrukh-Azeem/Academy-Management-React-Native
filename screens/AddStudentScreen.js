@@ -11,8 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RadioButton } from 'react-native-paper';
-import { db } from '../firebase';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import PackageCard from '../components/PackageCard';
 import { Picker } from '@react-native-picker/picker';
 
@@ -23,7 +22,7 @@ const AddStudentScreen = ({ route }) => {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [subjects, setSubjects] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  // const [totalPrice, setTotalPrice] = useState(0);
   const [selectedPackages, setSelectedPackages] = useState([]);
   const [branch, setBranch] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -32,42 +31,21 @@ const AddStudentScreen = ({ route }) => {
 
   const { selectedMonth, selectedYear } = route.params;
 
-  const calculatePrices = () => {
-    let total = 0;
-
-    if (selectedPackage) {
-      const packageData = packages.find((pkg) => pkg.id === selectedPackage);
-      if (packageData) {
-        total = packageData.amount;
-      }
-    }
-
-    const selectedSubjectCount = Object.values(selectedSubjects).filter(
-      (value) => value
-    ).length;
-    total += selectedSubjectCount * 100; // Assuming each subject costs 100.
-
-    setTotalPrice(total);
-  };
-
   const navigation = useNavigation();
   useEffect(() => {
     fetchPackages();
     fetchSubjects();
   }, []);
-  useEffect(() => {
-    calculatePrices();
-  }, [selectedSubjects, selectedPackage]);
 
   const fetchSubjects = async () => {
     try {
-      const subjectSnapshot = await getDocs(collection(db, 'courses'));
+      const subjectSnapshot = await firestore().collection('courses').get();
       const fetchedSubjects = subjectSnapshot.docs.map((doc) => ({
-        name: doc.data().subjectName,
-        cost: doc.data().subjectFee, // assuming the cost field is named 'subjectCost' in Firestore
+      name: doc.data().subjectName,
+      cost: doc.data().subjectFee, // assuming the cost field is named 'subjectCost' in Firestore
       }));
       setSubjects(fetchedSubjects);
-    } catch (error) {
+      } catch (error) {
       console.error('Error fetching subjects:', error);
     }
   };
@@ -94,8 +72,7 @@ const AddStudentScreen = ({ route }) => {
         totalFee: totalAmount,
       };
 
-      const newStudentRef = await addDoc(
-        collection(db, 'studentData'),
+      const newStudentRef = await firestore().collection('studentData').add(
         studentData
       );
 
@@ -123,7 +100,7 @@ const AddStudentScreen = ({ route }) => {
         };
         setIsLoading(false);
 
-        await addDoc(collection(db, 'feeRecords'), feeRecordData);
+        await firestore().collection('feeRecords').add(feeRecordData);
       } catch (error) {
         console.error('Error adding fee record:', error);
         alert('Failed to add fee record');
@@ -171,7 +148,8 @@ const AddStudentScreen = ({ route }) => {
 
   const fetchPackages = async () => {
     try {
-      const packageSnapshot = await getDocs(collection(db, 'packages'));
+      const packageCollection = firestore().collection('packages');
+      const packageSnapshot = await packageCollection.get();
       if (packageSnapshot && packageSnapshot.docs) {
         const fetchedPackages = packageSnapshot.docs.map((doc) => {
           const data = doc.data();
