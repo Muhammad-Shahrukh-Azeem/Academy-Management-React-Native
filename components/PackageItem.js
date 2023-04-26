@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput, Modal, ActivityIndicator } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import { Picker } from '@react-native-picker/picker';
 
 
 const PackageItem = ({ item, handleDeletePackage, refreshPackages }) => {
@@ -8,11 +9,11 @@ const PackageItem = ({ item, handleDeletePackage, refreshPackages }) => {
   const [updatedPackageName, setUpdatedPackageName] = useState(item?.packageName || '');
   const [updatedPackagePrice, setUpdatedPackagePrice] = useState(item?.packagePrice?.toString() || '');
   const [updatedSubjects, setUpdatedSubjects] = useState(item?.subjects ? item.subjects.join(', ') : '');
+  const [updatedBranch, setUpdatedBranch] = useState(item?.branchName || '');
   const [isLoading, setIsLoading] = useState(false);
-  
 
   const handleUpdatePackage = async () => {
-    if (updatedPackageName.trim() === '' || updatedPackagePrice.trim() === '' || updatedSubjects.trim() === '') {
+    if (updatedPackageName.trim() === '' || updatedPackagePrice.trim() === '' || updatedSubjects.trim() === '' || updatedBranch.trim() === '') {
       alert('Please fill in all the fields.');
       return;
     }
@@ -25,6 +26,7 @@ const PackageItem = ({ item, handleDeletePackage, refreshPackages }) => {
         Package: updatedPackageName,
         Amount: parseFloat(updatedPackagePrice),
         Subjects: updatedSubjects.split(',').map(subject => subject.trim()),
+        Branch: updatedBranch
       });
       setIsLoading(false);
 
@@ -71,15 +73,24 @@ const PackageItem = ({ item, handleDeletePackage, refreshPackages }) => {
               style={styles.input}
               placeholder="Subjects (comma-separated)"
             />
+            <Picker
+              selectedValue={updatedBranch}
+              onValueChange={(itemValue) => setUpdatedBranch(itemValue)}
+              style={styles.input}
+            >
+              <Picker.Item label="Select Branch" value="" />
+              <Picker.Item label="Johar" value="Johar" />
+              <Picker.Item label="Model" value="Model" />
+            </Picker>
           </>
         ) : (
           <>
             <Text style={styles.packageName}>{item.packageName}</Text>
             <Text style={styles.packagePrice}>{`${item.packagePrice}`}</Text>
             <Text style={styles.subjects}>{item.subjects ? item.subjects.join(', ') : ''}</Text>
+            <Text style={styles.branchName}>{item.branchName}</Text>
           </>
         )}
-
         <View style={styles.buttonContainer}>
           {editing ? (
             <TouchableOpacity onPress={handleUpdatePackage} style={styles.editButton}>
@@ -158,6 +169,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  branchName: {
+    color: 'black',
+  }
 });
 
 export default PackageItem;
+
+
