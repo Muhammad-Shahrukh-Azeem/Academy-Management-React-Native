@@ -9,17 +9,9 @@ import {
   TextInput, Modal, ActivityIndicator
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { auth, db } from '../firebase';
-// import {
-//   collection,
-//   onSnapshot,
-//   query,
-//   where,
-//   getDocs,
-//   writeBatch,
-//   doc,
-// } from 'firebase/firestore';
-import firestore from '@react-native-firebase/firestore'; // Replaced import statement
+import { auth } from '../firebase';
+
+import firestore from '@react-native-firebase/firestore';
 
 import StudentCard from '../components/StudentCard';
 import { Picker } from '@react-native-picker/picker';
@@ -268,42 +260,6 @@ const HomeScreen = () => {
     );
   };
 
-  // const initializeFeeRecordsForMonth = async (month, year) => {
-  //   setIsLoading(true); 
-
-  //   const studentDocs = await getDocs(collection(db, 'studentData'));
-
-  //   const batch = writeBatch(db);
-
-  //   studentDocs.forEach((studentDoc) => {
-  //     const studentData = studentDoc.data();
-  //     const monthName = new Date(2000, month - 1).toLocaleString('default', {
-  //       month: 'long',
-  //     });
-
-  //     const feeRecordRef = doc(
-  //       db,
-  //       'feeRecords',
-  //       `${studentDoc.id}_${month}_${year}`
-  //     );
-  //     batch.set(feeRecordRef, {
-  //       studentId: studentDoc.id,
-  //       studentName: studentData.name,
-  //       month: month,
-  //       monthName: monthName,
-  //       year: year,
-  //       status: 'Unpaid',
-  //       totalFee: studentData.totalFee,
-  //       subjects: studentData.subjects, // Add this line
-  //       packages: studentData.packages, // Add this line
-  //     });
-  //   });
-  //   setIsLoading(false); 
-
-  //   await batch.commit();
-
-  // };
-
   const MonthPicker = () => (
     <View style={styles.pickerContainer}>
       <Picker
@@ -377,6 +333,7 @@ const HomeScreen = () => {
       <TextInput
         style={styles.searchInput}
         placeholder="Search by student name"
+        placeholderTextColor="grey"
         value={searchText}
         onChangeText={setSearchText}
       />
@@ -436,10 +393,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-
   selectedDate: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: 'black',
   },
   signOutButton: {
     backgroundColor: 'red', // Changed the background color to red
@@ -507,7 +464,8 @@ const styles = StyleSheet.create({
   picker: {
     height: 35,
     width: 120,
-    alignSelf: 'center', // Add this line to center the picker horizontally
+    alignSelf: 'center',
+    color: 'black', // Add this line to center the picker horizontally
   },
   searchInput: {
     borderWidth: 1,
@@ -523,10 +481,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 2,
+    color: 'black',
   },
   yearPicker: {
     height: 40,
     width: 120,
+    color: 'black',
   },
   branchText: {
     alignContent: 'flex-start',

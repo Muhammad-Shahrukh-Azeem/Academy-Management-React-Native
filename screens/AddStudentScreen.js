@@ -273,6 +273,7 @@ const AddStudentScreen = ({ route }) => {
           <Text style={styles.packagesHeading}>Student Name *</Text>
           <TextInput
             placeholder="Student Name"
+            placeholderTextColor="grey"
             value={name}
             onChangeText={(text) => setName(text)}
             style={styles.input}
@@ -352,11 +353,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginBottom: 5,
+    color: 'black',
   },
   subjectsHeading: {
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 10,
+    color: 'black',
   },
   subjectsContainer: {
     marginBottom: 20,
@@ -367,6 +370,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     marginBottom: 15,
     flexBasis: '48%',
+  
   },
   subjectLabel: {
     marginLeft: 8,
@@ -375,6 +379,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 10,
+    color: 'black',
   },
   packagesContainer: {
     marginBottom: 20,
@@ -396,11 +401,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
-  packagesHeading: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginBottom: 10,
-  },
   packagesContainer: {
     marginBottom: 20,
   },
@@ -408,5 +408,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 20,
+    color: 'black',
   },
 });

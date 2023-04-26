@@ -145,6 +145,7 @@ const StudentCard = ({ student, feeRecord }) => {
                         <TextInput
                             style={styles.customAmountInput}
                             placeholder="Enter custom amount"
+                            placeholderTextColor="grey"
                             value={customAmount}
                             onChangeText={setCustomAmount}
                             keyboardType="numeric"
@@ -162,7 +163,6 @@ const StudentCard = ({ student, feeRecord }) => {
         </>
     );
 };
-
 
 const styles = StyleSheet.create({
     studentCard: {
@@ -187,9 +187,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         marginRight: 5,
+        color: 'black',
     },
     studentInfoText: {
         fontSize: 14,
+        color: 'black',
     },
     paidStatus: {
         color: 'green',
@@ -217,13 +219,13 @@ const styles = StyleSheet.create({
     },
     radioSelected: {
         borderColor: '#0782F9',
-        backgroundColor: '#E6F1FF', // Add this line
+        backgroundColor: '#E6F1FF',
     },
-
     radioText: {
         fontSize: 14,
         fontWeight: 'bold',
         marginLeft: 5,
+        color: 'black',
     },
     customAmountInput: {
         marginTop: 10,
@@ -233,6 +235,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         width: '100%',
+        color: 'black',
     },
     updatePaymentButton: {
         backgroundColor: '#0782F9',

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View, StyleSheet, Modal, ActivityIndicator } from 'react-native';
-import { db } from '../firebase';
-import { updateDoc, doc } from 'firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
+
 
 const CourseItem = ({ item, handleDeleteCourse, refreshCourses }) => {
     const [editing, setEditing] = useState(false);
     const [updatedSubjectName, setUpdatedSubjectName] = useState(item.subjectName);
-    const [updatedSubjectFee, setUpdatedSubjectFee] = useState(item.subjectFee.toString());
+    const [updatedSubjectFee, setUpdatedSubjectFee] = useState(item.subjectFee ? item.subjectFee.toString() : '');
     const [updatedTeacherName, setUpdatedTeacherName] = useState(item.teacherName);
     const [updatedBranchName, setUpdatedBranchName] = useState(item.branchName);
     const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +22,7 @@ const CourseItem = ({ item, handleDeleteCourse, refreshCourses }) => {
         try {
             setIsLoading(true);
 
-            await updateDoc(doc(db, 'courses', item.id), {
+            await firestore().collection('courses').doc(item.id).update({
                 subjectName: updatedSubjectName,
                 subjectFee: parseFloat(updatedSubjectFee),
                 teacherName: updatedTeacherName,
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         paddingHorizontal: 8,
         paddingVertical: 4,
+        color: 'black',
     },
     buttonContainer: {
         marginTop: 10,

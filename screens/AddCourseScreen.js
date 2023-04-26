@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Modal, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { db } from '../firebase';
-import { addDoc, collection } from 'firebase/firestore';
 import { Picker } from '@react-native-picker/picker';
+import firestore from '@react-native-firebase/firestore'; 
+
 
 const AddCourseScreen = () => {
     const [subjectName, setSubjectName] = useState('');
@@ -36,7 +36,7 @@ const AddCourseScreen = () => {
         }
 
         try {
-            await addDoc(collection(db, 'courses'), {
+            await firestore().collection('courses').add({
                 subjectName,
                 subjectFee: parseFloat(subjectFee),
                 teacherName,
@@ -58,12 +58,14 @@ const AddCourseScreen = () => {
                 <Text style={styles.heading}>Add Course</Text>
                 <TextInput
                     placeholder="Subject Name"
+                    placeholderTextColor="grey"
                     value={subjectName}
                     onChangeText={text => setSubjectName(text)}
                     style={styles.input}
                 />
                 <TextInput
                     placeholder="Subject Fee"
+                    placeholderTextColor="grey"
                     value={subjectFee}
                     onChangeText={text => setSubjectFee(text)}
                     keyboardType="number-pad"
@@ -71,16 +73,18 @@ const AddCourseScreen = () => {
                 />
                 <TextInput
                     placeholder="Teacher Name"
+                    placeholderTextColor="grey"
                     value={teacherName}
                     onChangeText={text => setTeacherName(text)}
                     style={styles.input}
                 />
-                <TextInput
+                {/* <TextInput
                     placeholder="Branch Name"
+                    placeholderTextColor="grey"
                     value={branchName}
                     onChangeText={text => setBranchName(text)}
                     style={styles.input}
-                />
+                /> */}
                 <Picker
                     selectedValue={branchName}
                     onValueChange={(itemValue) => setBranchName(itemValue)}
@@ -119,6 +123,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 10,
         marginBottom: 15,
+        color: 'black',
     },
     button: {
         backgroundColor: '#0782F9',
@@ -132,4 +137,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
     },
+    picker: {
+        color: 'black',
+    }
 });

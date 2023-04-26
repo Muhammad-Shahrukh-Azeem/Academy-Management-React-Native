@@ -4,6 +4,8 @@ import { db } from '../firebase';
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import CourseItem from '../components/CourseItem';
 import { Picker } from '@react-native-picker/picker';
+import firestore from '@react-native-firebase/firestore';
+
 
 const EditCourseScreen = () => {
   const [courses, setCourses] = useState([]);
@@ -18,8 +20,8 @@ const EditCourseScreen = () => {
 
   const fetchCourses = async () => {
     setLoading(true);
-    const courseCollection = collection(db, 'courses');
-    const courseSnapshot = await getDocs(courseCollection);
+    const courseCollection = firestore().collection('courses'); 
+    const courseSnapshot = await courseCollection.get();
     const courseData = courseSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     setCourses(courseData);
     setLoading(false);
@@ -40,14 +42,14 @@ const EditCourseScreen = () => {
 
     try {
       setIsLoading(true);
-      await deleteDoc(doc(db, 'courses', id));
+      await firestore().collection('courses').doc(id).delete(); // Replaced firestore deleteDoc() function
       setCourses(courses.filter(course => course.id !== id));
       setIsLoading(false);
       alert('Course deleted successfully');
     } catch (error) {
       alert('Error deleting course: ' + error.message);
     }
-  };
+  };;
 
   if (loading) {
     return (
