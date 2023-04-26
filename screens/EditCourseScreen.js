@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, FlatList, View, Modal, ActivityIndicator } from 'react-native';
-import { db } from '../firebase';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import CourseItem from '../components/CourseItem';
 import { Picker } from '@react-native-picker/picker';
 import firestore from '@react-native-firebase/firestore';
@@ -49,7 +47,7 @@ const EditCourseScreen = () => {
     } catch (error) {
       alert('Error deleting course: ' + error.message);
     }
-  };;
+  };
 
   if (loading) {
     return (
@@ -112,6 +110,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    
   },
   picker: {
     width: '45%',
@@ -122,6 +121,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 15,
     backgroundColor: 'white',
+    color: 'black',
   },
 });
 

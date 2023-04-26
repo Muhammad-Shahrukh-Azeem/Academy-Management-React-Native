@@ -29,7 +29,6 @@ const CourseItem = ({ item, handleDeleteCourse, refreshCourses }) => {
                 branchName: updatedBranchName,
             });
             setIsLoading(false);
-
             alert('Course updated successfully.');
             setEditing(false);
             refreshCourses();
@@ -84,10 +83,10 @@ const CourseItem = ({ item, handleDeleteCourse, refreshCourses }) => {
                     </>
                 ) : (
                     <>
-                        <Text>Name: {item.teacherName}</Text>
-                        <Text>Subject/Package: {item.subjectName}</Text>
-                        <Text>Amount: {item.subjectFee}</Text>
-                        <Text>Branch: {item.branchName}</Text>
+                        <Text style={[styles.textBlack, styles.bold]}>Name: <Text style={styles.textBlackRegular}>{item.teacherName}</Text></Text>
+                        <Text style={[styles.textBlack, styles.bold]}>Subject/Package: <Text style={styles.textBlackRegular}>{item.subjectName}</Text></Text>
+                        <Text style={[styles.textBlack, styles.bold]}>Amount: <Text style={styles.textBlackRegular}>{item.subjectFee}</Text></Text>
+                        <Text style={[styles.textBlack, styles.bold]}>Branch: <Text style={styles.textBlackRegular}>{item.branchName}</Text></Text>
                     </>
                 )}
 
@@ -148,6 +147,16 @@ const styles = StyleSheet.create({
     paymentUpdateText: {
         color: 'white',
         fontWeight: 'bold',
+    },
+    textBlack: {
+        color: 'black',
+    },
+    bold: {
+        fontWeight: 'bold',
+    },
+    textBlackRegular: {
+        color: 'black',
+        fontWeight: 'normal',
     },
 });
 
