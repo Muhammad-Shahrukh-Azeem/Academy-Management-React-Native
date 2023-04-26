@@ -6,8 +6,8 @@ import {
     TouchableOpacity,
     View, Modal, ActivityIndicator
 } from 'react-native';
-import { db } from '../firebase';
-import { doc, updateDoc } from 'firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
+
 
 const StudentCard = ({ student, feeRecord }) => {
     if (!feeRecord) {
@@ -28,7 +28,7 @@ const StudentCard = ({ student, feeRecord }) => {
     }, [feeRecord.totalFee]);
 
     const updateFeeRecord = async (status, amount) => {
-        const feeRecordRef = doc(db, 'feeRecords', feeRecord.id);
+        const feeRecordRef = firestore().collection('feeRecords').doc(feeRecord.id);
 
         let updates = { status: status };
 
@@ -40,7 +40,7 @@ const StudentCard = ({ student, feeRecord }) => {
             }
         }
 
-        await updateDoc(feeRecordRef, updates);
+        await feeRecordRef.update(updates); // Updated line
     };
 
     const handleCustomPayment = () => {
@@ -87,13 +87,13 @@ const StudentCard = ({ student, feeRecord }) => {
                     <View style={styles.studentInfoRow}>
                         <Text style={styles.studentInfoTextBold}>Courses:</Text>
                         <Text style={styles.studentInfoText}>
-                            {feeRecord.subjects && feeRecord.subjects.join(', ')} {/* Change this line */}
+                            {Array.isArray(feeRecord.subjects) ? feeRecord.subjects.join(', ') : "Not available"} {/* Change this line */}
                         </Text>
                     </View>
                     <View style={styles.studentInfoRow}>
                         <Text style={styles.studentInfoTextBold}>Packages:</Text>
                         <Text style={styles.studentInfoText}>
-                            {feeRecord.packages && feeRecord.packages.map(pkg => pkg.packageName).join(', ')} {/* Change this line */}
+                            {Array.isArray(feeRecord.packages) ? feeRecord.packages.map(pkg => pkg.packageName).join(', ') : "Not available"} {/* Change this line */}
                         </Text>
                     </View>
                     <View style={styles.studentInfoRow}>
