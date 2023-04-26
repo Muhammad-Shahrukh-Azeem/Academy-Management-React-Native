@@ -7,13 +7,10 @@ import UserRoleContext from '../contexts/UserRoleContext';
 import firestore from '@react-native-firebase/firestore';
 
 
-
-
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false);
-
 
   const navigation = useNavigation()
 

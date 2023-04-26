@@ -170,7 +170,7 @@ const HomeScreen = () => {
 
 
   const initializeFeeRecordsForMonth = async (month, year) => {
-    // setIsLoading(true);
+    setIsLoading(true);
   
     const studentDocs = await firestore().collection('studentData').get();
   
@@ -188,7 +188,6 @@ const HomeScreen = () => {
       const monthName = new Date(2000, month - 1).toLocaleString('default', {
         month: 'long',
       });
-      console.log('studentData:', studentData); // Debug studentData
   
       const feeRecordRef = firestore()
         .collection('feeRecords')
@@ -212,7 +211,7 @@ const HomeScreen = () => {
       });
     });
   
-    // setIsLoading(false);
+    setIsLoading(false);
   
     await batch.commit();
   };
