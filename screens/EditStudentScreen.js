@@ -4,6 +4,8 @@ import { db } from '../firebase'; // Import db from your firebase config file
 import { updateDoc, deleteDoc, doc, getDocs, collection } from 'firebase/firestore';
 import EditStudentCard from '../components/EditStudentCard';
 import { Picker } from '@react-native-picker/picker';
+import firestore from '@react-native-firebase/firestore';
+
 
 const EditStudentScreen = () => {
   const [studentData, setStudentData] = useState([]);
@@ -19,7 +21,8 @@ const EditStudentScreen = () => {
   const fetchStudentData = async () => {
     setLoading(true);
     try {
-      const querySnapshot = await getDocs(collection(db, 'studentData'));
+      const studentCollection = firestore().collection('studentData');
+      const querySnapshot = await studentCollection.get();
       const students = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
       setStudentData(students);
     } catch (error) {
@@ -32,8 +35,8 @@ const EditStudentScreen = () => {
   const handleDeleteStudent = async (id) => {
     try {
       setIsLoading(true); 
-      const studentRef = doc(db, 'studentData', id);
-      await deleteDoc(studentRef);
+      const studentRef = firestore().collection('studentData').doc(id);
+      await studentRef.delete();
       setIsLoading(false); 
       alert('Student deleted successfully.');
       fetchStudentData();
@@ -68,13 +71,14 @@ const EditStudentScreen = () => {
     }
 
     try {
-      const studentRef = doc(db, 'studentData', id);
-      await updateDoc(studentRef, fieldsToUpdate);
+      const studentRef = firestore().collection('studentData').doc(id);
+      await studentRef.update(fieldsToUpdate);
       setIsLoading(false); 
 
       alert('Student updated successfully.');
       fetchStudentData();
     } catch (error) {
+      setIsLoading(false); 
       alert('Error updating student: ' + error.message);
     }
   };
@@ -148,6 +152,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 15,
     backgroundColor: 'white',
+    color: 'black',
   },
   heading: {
     fontSize: 24,

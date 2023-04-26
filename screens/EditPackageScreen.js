@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, FlatList, View, Modal, ActivityIndicator } from 'react-native';
-import { db } from '../firebase';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import PackageItem from '../components/PackageItem';
 import { Picker } from '@react-native-picker/picker';
+import firestore from '@react-native-firebase/firestore';
+
 
 const EditPackageListScreen = () => {
   const [packages, setPackages] = useState([]);
@@ -18,8 +18,8 @@ const EditPackageListScreen = () => {
 
   const fetchPackages = async () => {
     setLoading(true);
-    const packageCollection = collection(db, 'packages');
-    const packageSnapshot = await getDocs(packageCollection);
+    const packageCollection = firestore().collection('packages');
+    const packageSnapshot = await packageCollection.get();
     const packageData = packageSnapshot.docs.map(doc => ({
       id: doc.id,
       packageName: doc.data().Package,
@@ -35,7 +35,8 @@ const EditPackageListScreen = () => {
     try {
       setIsLoading(true);
 
-      await deleteDoc(doc(db, 'packages', id));
+      const packageRef = firestore().collection('packages').doc(id);
+      await packageRef.delete();
       setPackages(packages.filter(pkg => pkg.id !== id));
       setIsLoading(false);
 
@@ -126,7 +127,9 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 15,
     backgroundColor: 'white',
+    color: 'black',
   },
+  
 });
 
 export default EditPackageListScreen;

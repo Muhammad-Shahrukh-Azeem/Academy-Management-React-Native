@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput, Modal, ActivityIndicator } from 'react-native';
-import { updateDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase';
+import firestore from '@react-native-firebase/firestore';
+
 
 const PackageItem = ({ item, handleDeletePackage, refreshPackages }) => {
   const [editing, setEditing] = useState(false);
-  const [updatedPackageName, setUpdatedPackageName] = useState(item.packageName);
-  const [updatedPackagePrice, setUpdatedPackagePrice] = useState(item.packagePrice.toString());
-  const [updatedSubjects, setUpdatedSubjects] = useState(item.subjects ? item.subjects.join(', ') : '');
+  const [updatedPackageName, setUpdatedPackageName] = useState(item?.packageName || '');
+  const [updatedPackagePrice, setUpdatedPackagePrice] = useState(item?.packagePrice?.toString() || '');
+  const [updatedSubjects, setUpdatedSubjects] = useState(item?.subjects ? item.subjects.join(', ') : '');
   const [isLoading, setIsLoading] = useState(false);
+  
 
   const handleUpdatePackage = async () => {
     if (updatedPackageName.trim() === '' || updatedPackagePrice.trim() === '' || updatedSubjects.trim() === '') {
@@ -19,7 +20,8 @@ const PackageItem = ({ item, handleDeletePackage, refreshPackages }) => {
     setIsLoading(true);
 
     try {
-      await updateDoc(doc(db, 'packages', item.id), {
+      const packageRef = firestore().collection('packages').doc(item.id);
+      await packageRef.update({
         Package: updatedPackageName,
         Amount: parseFloat(updatedPackagePrice),
         Subjects: updatedSubjects.split(',').map(subject => subject.trim()),
@@ -110,6 +112,7 @@ const styles = StyleSheet.create({
   packageName: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: 'black',
   },
   packagePrice: {
     fontSize: 16,
@@ -127,6 +130,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    color: 'black',
+
   },
   buttonContainer: {
     marginTop: 10,

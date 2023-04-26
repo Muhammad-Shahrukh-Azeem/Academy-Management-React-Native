@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View,  Modal, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '../firebase';
 import { Picker } from '@react-native-picker/picker';
-
+import firestore from '@react-native-firebase/firestore';
 
 const AddPackageScreen = () => {
   const [packageName, setPackageName] = useState('');
@@ -31,7 +29,7 @@ const AddPackageScreen = () => {
         Branch: branch,
       };
 
-      await addDoc(collection(db, 'packages'), Package);
+      await firestore().collection('packages').add(Package);
       setIsLoading(false);
 
       alert('Package added successfully');
@@ -63,12 +61,16 @@ const AddPackageScreen = () => {
         value={packageName}
         onChangeText={setPackageName}
         placeholder="Package Name"
+        placeholderTextColor="grey"
+
       />
       <TextInput
         style={styles.input}
         value={courses}
         onChangeText={setCourses}
         placeholder="Courses (comma-separated)"
+        placeholderTextColor="grey"
+
       />
       <TextInput
         style={styles.input}
@@ -76,6 +78,8 @@ const AddPackageScreen = () => {
         value={totalFee}
         onChangeText={setTotalFee}
         placeholder="Total Fee"
+        placeholderTextColor="grey"
+
       />
       <Picker
         selectedValue={branch}
@@ -109,6 +113,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     marginBottom: 10,
+    color: 'black',
+
   },
   addButton: {
     backgroundColor: 'blue',
@@ -121,6 +127,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  picker: {
+    color: 'black',
+  }
 });
 
 export default AddPackageScreen;

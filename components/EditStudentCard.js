@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    color: 'black',
   },
 
   updateText: {
