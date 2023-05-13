@@ -28,6 +28,8 @@ const AddStudentScreen = ({ route }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [subjectsVisible, setSubjectsVisible] = useState(true);
   const [packagesVisible, setPackagesVisible] = useState(true);
+  const [isBranchSelected, setIsBranchSelected] = useState(false);
+
 
   const { selectedMonth, selectedYear } = route.params;
 
@@ -39,7 +41,8 @@ const AddStudentScreen = ({ route }) => {
 
   const fetchSubjects = async () => {
     try {
-      const subjectSnapshot = await firestore().collection('courses').get();
+      const subjectSnapshot = await firestore().collection('courses').where('branchName', '==', branch)
+      .get();
       const fetchedSubjects = subjectSnapshot.docs.map((doc) => ({
       name: doc.data().subjectName,
       cost: doc.data().subjectFee, // assuming the cost field is named 'subjectCost' in Firestore
@@ -114,6 +117,37 @@ const AddStudentScreen = ({ route }) => {
     }
   };
 
+
+  const branchSelectionModal = (
+    <Modal
+      animationType="slide"
+      transparent={false}
+      visible={!isBranchSelected}
+      onRequestClose={() => {
+        alert("You must select a branch before proceeding.");
+      }}
+    >
+      <View style={styles.container}>
+        <Text style={styles.packagesHeading}>Branch *</Text>
+        <Picker
+          selectedValue={branch}
+          onValueChange={(itemValue) => {
+            setBranch(itemValue);
+            if (itemValue !== "") {
+              setIsBranchSelected(true);
+            }
+          }}
+          style={styles.input}
+        >
+          <Picker.Item label="Select Branch" value="" />
+          <Picker.Item label="Model" value="Model" />
+          <Picker.Item label="Johar" value="Johar" />
+        </Picker>
+      </View>
+    </Modal>
+  );
+  
+
   const handlePackageSelection = (selectedPkg) => {
     // Toggle the package selection
     if (selectedPackages.includes(selectedPkg.id)) {
@@ -148,7 +182,7 @@ const AddStudentScreen = ({ route }) => {
 
   const fetchPackages = async () => {
     try {
-      const packageCollection = firestore().collection('packages');
+      const packageCollection = firestore().collection('packages').where('Branch', '==', branch);
       const packageSnapshot = await packageCollection.get();
       if (packageSnapshot && packageSnapshot.docs) {
         const fetchedPackages = packageSnapshot.docs.map((doc) => {
@@ -246,6 +280,8 @@ const AddStudentScreen = ({ route }) => {
 
   return (
     <>
+        {branchSelectionModal}
+
       <View style={styles.container}>
         <View>
           <Text style={styles.packagesHeading}>Student Name *</Text>
