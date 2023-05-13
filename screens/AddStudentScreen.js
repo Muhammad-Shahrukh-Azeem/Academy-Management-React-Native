@@ -35,9 +35,11 @@ const AddStudentScreen = ({ route }) => {
 
   const navigation = useNavigation();
   useEffect(() => {
-    fetchPackages();
-    fetchSubjects();
-  }, []);
+        fetchPackages();
+        fetchSubjects();
+    
+}, [branch]);
+
 
   const fetchSubjects = async () => {
     try {
