@@ -46,6 +46,8 @@ const EditCourseScreen = () => {
       alert('Course deleted successfully');
     } catch (error) {
       alert('Error deleting course: ' + error.message);
+      setIsLoading(false);
+
     }
   };
 

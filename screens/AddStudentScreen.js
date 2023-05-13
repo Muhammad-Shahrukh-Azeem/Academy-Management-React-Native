@@ -202,12 +202,12 @@ const AddStudentScreen = ({ route }) => {
   const calculateTotal = () => {
     const selectedPackageAmount = selectedPackages
       .map((pkgId) => packages.find((pkg) => pkg.id === pkgId)?.amount || 0)
-      .reduce((total, amount) => total + amount, 0);
+      .reduce((total, amount) => Number(total) + Number(amount), 0);
 
     const selectedSubjectCosts = Object.keys(selectedSubjects)
       .filter((subject) => selectedSubjects[subject])
       .map((subject) => subjects.find((s) => s.name === subject)?.cost || 0)
-      .reduce((total, cost) => total + cost, 0);
+      .reduce((total, cost) => Number(total) + Number(cost), 0);
 
     return selectedPackageAmount + selectedSubjectCosts;
   };

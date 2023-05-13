@@ -32,6 +32,8 @@ const AddCourseScreen = () => {
 
         if (subjectName.trim() === '' || subjectFee.trim() === '' || teacherName.trim() === '' || branchName.trim() === '') {
             alert('Please fill in all the fields.');
+            setIsLoading(false);
+
             return;
         }
 
@@ -48,6 +50,8 @@ const AddCourseScreen = () => {
             navigation.goBack();
         } catch (error) {
             alert('Error adding course: ' + error.message);
+            setIsLoading(false);
+
         }
     };
 
