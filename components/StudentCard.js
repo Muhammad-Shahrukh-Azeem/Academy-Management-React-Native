@@ -7,6 +7,8 @@ import {
     View, Modal, ActivityIndicator
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+// import { scanAndPrint } from './PrinterHelper';
+
 
 
 const StudentCard = ({ student, feeRecord }) => {
@@ -60,7 +62,7 @@ const StudentCard = ({ student, feeRecord }) => {
             </View>
         </Modal>
     );
-    const handleUpdatePayment = () => {
+    const handleUpdatePayment = async() => {
         setIsLoading(true);
 
         if (paymentStatus === 'Custom Payment') {
@@ -71,6 +73,8 @@ const StudentCard = ({ student, feeRecord }) => {
             const newStatus = (feeRecord.amountPaid || 0) >= student.totalFee ? 'Paid' : 'Unpaid';
             updateFeeRecord(newStatus);
         }
+        // await scanAndPrint('Your receipt text\n');
+
         setIsLoading(false);
 
     };

@@ -19,7 +19,6 @@
     "firebase": "^9.19.1",
     "react": "18.2.0",
     "react-native": "0.71.7",
-    "react-native-bluetooth-escpos-printer": "^0.0.5",
     "react-native-checkbox": "^2.0.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-paper": "^5.6.0",
